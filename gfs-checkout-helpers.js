@@ -21,6 +21,23 @@ function _findDroppointsForProvider(checkoutResponse, provider){
     });
 }
 
+function _findOptionsForDate(options, date){
+    return new Promise(function(resolve, reject){
+        var result = {
+            type: "",
+            options: []
+        };
+
+        options.forEach((day) => {
+            if(day.deliveryDate === date){
+                result.options.concat(day.rates);
+            }
+        });
+
+        resolve(result);
+    });
+}
+
 module.exports = {
     optionsForGivenDate: function(checkoutResponse, date){
         return new Promise(function(resolve, reject){
@@ -34,6 +51,9 @@ module.exports = {
             }
 
             var promises = [];
+            
+            promises.push(_findOptionsForDate(checkoutResponse.dayDefinite, date));
+            promises.push(_findOptionsForDate(checkoutResponse.nonDayDefinite, date));
 
             Promise.all(promises).then((options)=> {
                 resolve([].concat.apply([], options));
