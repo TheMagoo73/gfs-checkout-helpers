@@ -13,3 +13,11 @@ it('Can return all options for a given date', () => {
     return parser('', '').should.be.fulfilled;
 
 });
+
+it('Can return drop points for a given option', () => {
+
+    var parser = require('../gfs-checkout-helpers').droppointsForOption;
+
+    return parser('').should.be.fulfilled;
+
+});
