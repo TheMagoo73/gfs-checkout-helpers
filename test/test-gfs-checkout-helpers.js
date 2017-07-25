@@ -4,12 +4,33 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 chai.should();
 
-it('Can return all options for a given date', () => {
+describe('Shipping Options available on a given day', () => {
+    it('Fails if no date is provided', () => {
+        var parser = require('../gfs-checkout-helpers').optionsForGivenDate;
 
-    var parser = require('../gfs-checkout-helpers').optionsForGivenDate;
+        return parser({}, '').should.be.rejected;
+    });
 
-    return parser('', '').should.be.fulfilled;
+    it('Fails if no Checkout response is provided', () => {
+        var parser = require('../gfs-checkout-helpers').optionsForGivenDate;
 
+        return parser({}, '2017-04-11T00:00:00').should.be.rejected;
+    });
+
+    it('Returns all options for a given date', () => {
+        var resp = {
+            nonDayDefinite: [
+
+            ],
+            dayDefinite: [
+
+            ]
+        }
+
+        var parser = require('../gfs-checkout-helpers').optionsForGivenDate;
+
+        return parser(resp, '2017-04-11T00:00:00').should.be.fulfilled;
+    });
 });
 
 describe('Drop Points for a given shipping Option', () => {
@@ -23,7 +44,6 @@ describe('Drop Points for a given shipping Option', () => {
         var parser = require('../gfs-checkout-helpers').droppointsForOption;
 
         return  Promise.resolve(parser({}, option)).should.be.rejected;
-
     });
 
     it('Can return drop points for a given option', () => {
