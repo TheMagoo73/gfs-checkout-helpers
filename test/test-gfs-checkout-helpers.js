@@ -12,36 +12,51 @@ it('Can return all options for a given date', () => {
 
 });
 
-it('Can return drop points for a given option', () => {
-    var response = {
-        droppoints: [
-            {
-                providerName: "DPD"
-            },
-            {
-                providerName: "COLLECT PLUS"
-            },
-            {
-                providerName: "HERMES"
-            }
-        ]
-    };
+describe('Drop Points for a given shipping Option', () => {
+    it('Rejects non-drop point shipping Options', () => {
+        var option = {
+            serviceType: {
+                type: "dmStandard"
+            }    
+        }
 
-    var option = {
-        serviceType: {
-            type: "dmStandardDropPoint",
-            droppointProviders: [
+        var parser = require('../gfs-checkout-helpers').droppointsForOption;
+
+        return  Promise.resolve(parser({}, option)).should.be.rejected;
+
+    });
+
+    it('Can return drop points for a given option', () => {
+        var response = {
+            droppoints: [
                 {
-                    name: "DPD"
+                    providerName: "DPD"
                 },
                 {
-                    name: "COLLECT PLUS"
+                    providerName: "COLLECT PLUS"
+                },
+                {
+                    providerName: "HERMES"
                 }
             ]
-        }    
-    }
+        };
 
-    var parser = require('../gfs-checkout-helpers').droppointsForOption;
+        var option = {
+            serviceType: {
+                type: "dmStandardDropPoint",
+                droppointProviders: [
+                    {
+                        name: "DPD"
+                    },
+                    {
+                        name: "COLLECT PLUS"
+                    }
+                ]
+            }    
+        }
 
-    return  Promise.resolve(parser(response, option)).should.eventually.have.length(2);
+        var parser = require('../gfs-checkout-helpers').droppointsForOption;
+
+        return  Promise.resolve(parser(response, option)).should.eventually.have.length(2);
+    });
 });
