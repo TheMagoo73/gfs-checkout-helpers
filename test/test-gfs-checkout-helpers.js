@@ -20,16 +20,26 @@ describe('Shipping Options available on a given day', () => {
     it('Returns all options for a given date', () => {
         var resp = {
             nonDayDefinite: [
-
+                {
+                    deliveryDate: "2017-04-11T00:00:00"
+                },
+                {
+                    deliveryDate: "2017-05-11T00:00:00"
+                }
             ],
             dayDefinite: [
-
+                {
+                    deliveryDate: "2017-04-11T00:00:00"
+                },
+                {
+                    deliveryDate: "2017-05-11T00:00:00"
+                }
             ]
         }
 
         var parser = require('../gfs-checkout-helpers').optionsForGivenDate;
 
-        return parser(resp, '2017-04-11T00:00:00').should.be.fulfilled;
+        return Promise.resolve(parser(resp, '2017-04-11T00:00:00')).should.eventually.have.length(2);
     });
 });
 

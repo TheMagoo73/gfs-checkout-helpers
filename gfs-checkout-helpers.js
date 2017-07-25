@@ -25,12 +25,21 @@ module.exports = {
     optionsForGivenDate: function(checkoutResponse, date){
         return new Promise(function(resolve, reject){
 
-            if(1 == 0){
-                resolve(options = {awesome: "it all worked"});
+            if(date == ''){
+                reject("No date specified");
             }
-            else{
-                reject(error = {bugger: "it went wrong"});
+
+            if(Object.keys(checkoutResponse).length == 0){
+                reject("No Checkout data provided")
             }
+
+            var promises = [];
+
+            Promise.all(promises).then((options)=> {
+                resolve([].concat.apply([], options));
+            }, (reason) => {
+                reject(reason);
+            });
 
         });
     },
