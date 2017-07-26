@@ -38,6 +38,31 @@ function _findOptionsForDate(options, date){
     });
 }
 
+function _findOptionsForDropPoint(options, dropPoint){
+    return new Promise(function(resolve, reject){
+        var result = [];
+
+
+        options.forEach((day) => {
+            day.rates.forEach((option) => {
+                if(option.serviceType.type == "dmStandardDropPoint") {
+                    option.serviceType.droppointProviders.forEach((provider) => {
+                        if(provider.name == dropPoint.providerName) {
+                            result.push(option);
+                        }
+                    })
+                }
+            });
+        });
+
+        resolve(result);
+    });
+}
+
+function _isDayDef(minDD, maxDD){
+    return minDD == maxDD;
+}
+
 module.exports = {
     optionsForGivenDate: function(checkoutResponse, date){
         return new Promise(function(resolve, reject){
@@ -80,6 +105,21 @@ module.exports = {
                 resolve([].concat.apply([], points));
             }, (reason) => {
                 reject(reason);
+            })
+        });
+    },
+    optionsForDropPoint: function(checkoutResponse, dropPoint){
+        return new Promise(function(resolve, reject){
+
+            var promises = [];
+            
+            promises.push(_findOptionsForDropPoint(checkoutResponse.nonDayDefinite, dropPoint));
+            promises.push(_findOptionsForDropPoint(checkoutResponse.dayDefinite, dropPoint));
+
+            Promise.all(promises).then((options) => {
+                resolve([].concat.apply([], options));
+            }, (reason) => {
+                reject(reason)
             })
         });
     }
