@@ -28,6 +28,10 @@ function _findOptionsForDate(options, date){
             options: []
         };
 
+        if(!options) {
+            resolve(result);
+        }
+
         options.forEach((day) => {
             if(day.deliveryDate === date){
                 result.options.concat(day.rates);
@@ -38,21 +42,25 @@ function _findOptionsForDate(options, date){
     });
 }
 
-function _findOptionsForDropPoint(options, dropPoint){
+function _findOptionsForDropPoint(options, dropPoint, date){
     return new Promise(function(resolve, reject){
         var result = [];
-
+        if(!options) {
+            resolve(result);
+        }
 
         options.forEach((day) => {
-            day.rates.forEach((option) => {
-                if(option.serviceType.type == "dmStandardDropPoint") {
-                    option.serviceType.droppointProviders.forEach((provider) => {
-                        if(provider.name == dropPoint.providerName) {
-                            result.push(option);
-                        }
-                    })
-                }
-            });
+            if(date == "" || day.deliveryDate == date) {
+                day.rates.forEach((option) => {
+                    if(option.serviceType.type == "dmStandardDropPoint") {
+                        option.serviceType.droppointProviders.forEach((provider) => {
+                            if(provider.name == dropPoint.providerName) {
+                                result.push(option);
+                            }
+                        })
+                    }
+                });
+            }
         });
 
         resolve(result);
@@ -108,13 +116,13 @@ module.exports = {
             })
         });
     },
-    optionsForDropPoint: function(checkoutResponse, dropPoint){
+    optionsForDropPoint: function(checkoutResponse, dropPoint, date){
         return new Promise(function(resolve, reject){
 
             var promises = [];
             
-            promises.push(_findOptionsForDropPoint(checkoutResponse.nonDayDefinite, dropPoint));
-            promises.push(_findOptionsForDropPoint(checkoutResponse.dayDefinite, dropPoint));
+            promises.push(_findOptionsForDropPoint(checkoutResponse.nonDayDefinite, dropPoint, date));
+            promises.push(_findOptionsForDropPoint(checkoutResponse.dayDefinite, dropPoint, date));
 
             Promise.all(promises).then((options) => {
                 resolve([].concat.apply([], options));

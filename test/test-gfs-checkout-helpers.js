@@ -44,9 +44,59 @@ describe('Shipping Options available on a given day', () => {
 });
 
 describe('Provide services for a drop point', () => {
-    it('Returns services for the selected drop point', () => {
+    it('Can filter return saves to a specific date', () => {
         var dropPoint = {
             providerName: "DPD"
+        }
+
+        var checkoutResponse = {
+            dayDefinite: [
+                {
+                    deliveryDate: "2017-04-11T00:00:00",
+                    rates: [{
+                        serviceType: {
+                            type: "dmStandardDropPoint",
+                            droppointProviders: [
+                                {name: "DPD"}
+                            ]
+                        }
+                    }]
+                },
+                {
+                    deliveryDate: "2017-04-12T00:00:00",
+                    rates: [{
+                        serviceType: {
+                            type: "dmStandardDropPoint",
+                            droppointProviders: [
+                                {name: "DPD"},
+                                {name: "COLLECT PLUS"}
+                            ]
+                        }
+                    }]
+                },
+                {
+                    deliveryDate: "2017-04-11T00:00:00",
+                    rates: [{
+                        serviceType: {
+                            type: "dmStandardDropPoint",
+                            droppointProviders: [
+                                {name: "COLLECT PLUS"}
+                            ]
+                        }
+                    }]
+                }
+            ]
+        }
+
+        var parser = require('../gfs-checkout-helpers').optionsForDropPoint;
+
+        return Promise.resolve(parser(checkoutResponse, dropPoint, "2017-04-11T00:00:00")).should.eventually.have.length(1);  
+
+    });
+
+    it('Returns services for the selected drop point', () => {
+        var dropPoint = {
+            providerName: "DPD"            
         }
 
         var checkoutResponse = {
