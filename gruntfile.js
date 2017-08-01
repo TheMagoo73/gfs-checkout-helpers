@@ -26,6 +26,11 @@ module.exports = function(grunt) {
                 files: {
                     'gfs-checkout-helpers-browserify.js': ['gfs-checkout-helpers.js']
                 }
+            },
+            options: {
+                alias: {
+                    'gfs-checkout-helpers' : './gfs-checkout-helpers.js'
+                }
             }
         },
         watch: {
