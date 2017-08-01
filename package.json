@@ -17,8 +17,14 @@
   },
   "homepage": "https://github.com/TheMagoo73/gfs-checkout-helpers#readme",
   "devDependencies": {
+    "browserify": "^14.4.0",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
+    "grunt": "^1.0.1",
+    "grunt-browserify": "^5.0.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-mocha-test": "^0.13.2",
     "mocha": "^3.4.2"
   }
 }
