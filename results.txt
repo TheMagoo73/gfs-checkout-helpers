@@ -1,0 +1,18 @@
+
+[0m[0m
+[0m  Shipping Options available on a given day[0m
+  [32m  √[0m[90m Fails if no date is provided[0m
+  [32m  √[0m[90m Fails if no Checkout response is provided[0m
+  [32m  √[0m[90m Returns all options for a given date[0m
+
+[0m  Provide services for a drop point[0m
+  [32m  √[0m[90m Can filter return saves to a specific date[0m
+  [32m  √[0m[90m Returns services for the selected drop point[0m
+
+[0m  Drop Points for a given shipping Option[0m
+  [32m  √[0m[90m Rejects non-drop point shipping Options[0m
+  [32m  √[0m[90m Returns drop points for a given option[0m
+
+
+[92m [0m[32m 7 passing[0m[90m (30ms)[0m
+
