@@ -67,9 +67,9 @@ function _findOptionsForDropPoint(options, dropPoint, date){
     });
 }
 
-function _isDayDef(minDD, maxDD){
-    return minDD == maxDD;
-}
+//function _isDayDef(minDD, maxDD){
+//    return minDD == maxDD;
+//}
 
 module.exports = {
     optionsForGivenDate: function(checkoutResponse, date){
