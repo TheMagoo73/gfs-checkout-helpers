@@ -4,7 +4,8 @@
   "description": "A set of Javascript helpers for handling the GFS Checkout API response model",
   "main": "gfs-checkout-helpers.js",
   "scripts": {
-    "test": "mocha"
+    "test": "nyc --reporter=html --reporter=text mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -20,11 +21,15 @@
     "browserify": "^14.4.0",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
+    "coveralls": "^2.13.1",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-mocha-test": "^0.13.2",
-    "mocha": "^3.4.2"
-  }
+    "istanbul": "^0.4.5",
+    "mocha": "^3.4.2",
+    "nyc": "^11.1.0"
+  },
+  "dependencies": {}
 }
